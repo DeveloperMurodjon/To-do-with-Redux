@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import addImage from "/add.png";
 import editImg from "/edit.png";
 import checkImg from "/check.png";
@@ -11,6 +11,7 @@ function App() {
   const [todo, setTodo] = useState({ id: "", text: "", completed: false });
   const todos = useSelector((state) => state.todo.todos);
   const dispatch = useDispatch();
+  const inputRef = useRef(null)
 
   //Add and update
   const handleSubmit = (e) => {
@@ -29,6 +30,10 @@ function App() {
   // Edit
   const handleEdit = (editTodo) => {
     setTodo({ id: editTodo.id, text: editTodo.text });
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0)
   };
 
   // Remove
@@ -49,6 +54,7 @@ function App() {
         <form onSubmit={handleSubmit}>
           <div className="flex items-center">
             <input
+              ref={inputRef}
               type="text"
               value={todo.text}
               onChange={(e) => setTodo({ ...todo, text: e.target.value })}
